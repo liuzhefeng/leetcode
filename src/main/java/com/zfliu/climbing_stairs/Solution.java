@@ -19,9 +19,8 @@ public class Solution {
     }
 
     /**
-     *
      * 1 2 3 5 8 13
-     * */
+     */
     public int climbStairs1(int n) {
         if (n < 3) {
             return n;
