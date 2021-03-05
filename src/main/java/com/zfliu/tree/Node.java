@@ -1,5 +1,8 @@
 package com.zfliu.tree;
 
+import lombok.Data;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +21,7 @@ import java.util.List;
  * 确定每一层递归需要处理的信息。在这里也就会重复调用自己来实现递归的过程。
  * <p>
  */
+@Data
 public class Node {
     public int        val;
     public List<Node> children;
@@ -27,10 +31,23 @@ public class Node {
 
     public Node(int _val) {
         val = _val;
+        children = new ArrayList<Node>();
     }
 
     public Node(int _val, List<Node> _children) {
         val = _val;
         children = _children;
     }
-};
+
+    public boolean isLeaf() {
+        if (children.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addChildNode(Node node) {
+        children.add(node);
+        return true;
+    }
+}

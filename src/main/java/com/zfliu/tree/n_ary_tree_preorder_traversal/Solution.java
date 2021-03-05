@@ -2,9 +2,7 @@ package com.zfliu.tree.n_ary_tree_preorder_traversal;
 
 import com.zfliu.tree.Node;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by zfliu on 2021/3/5 16:50
@@ -19,31 +17,41 @@ import java.util.List;
  */
 public class Solution {
     public List<Integer> preorder(Node root) {
-        List<Integer> results = new LinkedList();
+        /*先序遍历*/
+        /**
+         * 先序遍历：根左右
+         * 利用栈模拟递归调用
+         * 将根结点压入栈中，当栈不空时执行：
+         * 弹出栈中结点，将其放入结果队列中
+         * 将该结点的孩子按照倒序依次放入栈中
+         */
+        Stack<Node>         stack = new Stack<Node>();
+        LinkedList<Integer> pre   = new LinkedList<Integer>();
         if (root == null) {
-            return results;
-        } else {
-            results.add(root.val);
-            List<Node> children = root.children;
-            for (Node child : children) {
-                preorder(child);
+            return pre;
+        }
+        stack.add(root);
+        while (!stack.isEmpty()) {
+            Node pop = stack.pop();
+            pre.add(pop.val);
+            Collections.reverse(pop.children);
+            for (Node child : pop.children) {
+                stack.add(child);
             }
         }
-        return null;
+        return pre;
     }
 
     public static void main(String[] args) {
-        List<Node> queue = new LinkedList<Node>();
-        List<Node> tree  = new LinkedList<Node>();
-        Integer[]  arrs  = {1, null, 3, 2, 4, null, 5, 6};
-        Node       head = new Node(arrs[1]);
-        for (int i = 0; i < arrs.length; i++) {
-            Node node = new Node(arrs[i]);
-            queue.add(node);
-            if (arrs[i] == null) {
+        Node          tree     = new Solution().createTree();
+        List<Integer> preorder = new Solution().preorder(tree);
+        System.out.println(preorder);
+    }
 
-            }
-
-        }
+    Node createTree() {
+        Integer[] arrs = {1, null, 3, 2, 4, null, 5, 6};
+        Node node = new Node(1, Arrays.asList(new Node(3, Arrays.asList(new Node(5),
+                new Node(6))), new Node(2), new Node(4)));
+        return node;
     }
 }
