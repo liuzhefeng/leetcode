@@ -1,8 +1,10 @@
 package com.zfliu.tree;
 
+import com.zfliu.tree.n_ary_tree_preorder_traversal.Solution;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -22,7 +24,7 @@ import java.util.List;
  * <p>
  */
 @Data
-public class Node {
+public class Node implements MultiNodeTree {
     public int        val;
     public List<Node> children;
 
@@ -37,6 +39,40 @@ public class Node {
     public Node(int _val, List<Node> _children) {
         val = _val;
         children = _children;
+    }
+
+    public static void main(String[] args) {
+        Integer[] arrs = {1, null, 3, 2, 4, null, 5, 6};
+        new Node().creat(arrs);
+    }
+
+    @Override
+    public Node creat(Integer[] nums) {
+        if (nums.length == 0) {
+            return null;
+        }
+        Node             head         = new Node(nums[0]);
+        LinkedList<Node> subTreeQueue = new LinkedList<Node>();
+        subTreeQueue.push(head);
+        for (int i = 2; i < nums.length; i++) {
+            if (!subTreeQueue.isEmpty()) {
+                Node             cur       = subTreeQueue.pop();
+                LinkedList<Node> childrens = new LinkedList<Node>();
+                cur.children = childrens;
+                while (nums[i] != null) {
+                    Node child = new Node(nums[i]);
+                    childrens.add(child);
+                    subTreeQueue.add(child);
+                    i++;
+                    if (i >= nums.length) {
+                        break;
+                    }
+                }
+            } else {
+                break;
+            }
+        }
+        return head;
     }
 
     public boolean isLeaf() {

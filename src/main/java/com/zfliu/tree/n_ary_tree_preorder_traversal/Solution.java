@@ -43,15 +43,19 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        Node          tree     = new Solution().createTree();
+        Node          node     = new Node();
+        Node          tree     = new Solution().createTree(node);
         List<Integer> preorder = new Solution().preorder(tree);
         System.out.println(preorder);
     }
 
-    Node createTree() {
+
+    Node createTree(Node head) {
         Integer[] arrs = {1, null, 3, 2, 4, null, 5, 6};
         Node node = new Node(1, Arrays.asList(new Node(3, Arrays.asList(new Node(5),
                 new Node(6))), new Node(2), new Node(4)));
         return node;
     }
+
+
 }
